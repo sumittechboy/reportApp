@@ -1,0 +1,7 @@
+services:
+  - type: static
+    name: report-app
+    env: static
+    branch: main
+    buildCommand: npm ci && npm run build
+    staticPublishPath: dist
