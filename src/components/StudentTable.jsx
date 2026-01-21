@@ -23,6 +23,7 @@ const StudentTable = ({ students, onView, onPrint }) => {
                   className="primary-btn" 
                   onClick={() => onView(s.ID)}
                   style={{ padding: '5px 10px', fontSize: '12px', background: '#eab308', color: 'black', marginRight: '5px' }}
+                  title="View Report"
                 >
                   View
                 </button>
@@ -30,6 +31,7 @@ const StudentTable = ({ students, onView, onPrint }) => {
                   className="primary-btn" 
                   onClick={() => onPrint(s.ID)}
                   style={{ padding: '5px 10px', fontSize: '12px' }}
+                  title="Print Report"
                 >
                   Print
                 </button>

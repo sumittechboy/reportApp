@@ -2,6 +2,11 @@ import React, { useMemo } from 'react';
 import { Chart } from "react-google-charts";
 
 const ReportPage = ({ student, classInfo, classAvg, subjectToppers }) => {
+  const handlePrint = () => {
+    setTimeout(() => {
+      window.print();
+    }, 100);
+  };
 
     const chartData = useMemo(() => {
         const sData = student.metrics.map(m => m.p);
@@ -36,7 +41,22 @@ const ReportPage = ({ student, classInfo, classAvg, subjectToppers }) => {
     };
 
   return (
-    <div className="report-page">
+    <div style={{ position: 'relative' }}>
+      <button 
+        className="primary-btn no-print"
+        onClick={handlePrint}
+        style={{
+          position: 'sticky',
+          top: '10px',
+          right: '10px',
+          zIndex: '10',
+          float: 'right',
+          marginBottom: '10px'
+        }}
+      >
+        🖨️ Print
+      </button>
+      <div className="report-page">
       <div className="report-header">
         <img 
             src="/logo.png" 
@@ -185,6 +205,7 @@ const ReportPage = ({ student, classInfo, classAvg, subjectToppers }) => {
       <div style={{ position: 'absolute', bottom: '5mm', left: 0, width: '100%', textAlign: 'center', fontSize: '10px', color: '#666', fontWeight: '600' }}>
         Registration Open for New Session (Nursery to Class 11th) | Contact: +91 91202 54484 | www.thepresidents.in
       </div>
+    </div>
     </div>
   );
 };

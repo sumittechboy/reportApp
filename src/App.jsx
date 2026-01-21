@@ -177,7 +177,11 @@ function App() {
           />
 
           {activeTab === 'dashboard' && (
-            <DashboardStats studentCount={studentData.length} />
+            <DashboardStats 
+              studentCount={studentData.length}
+              studentData={studentData}
+              classInfo={classInfo}
+            />
           )}
 
           {activeTab === 'students' && (

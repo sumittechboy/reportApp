@@ -1,8 +1,26 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 const Sidebar = ({ activeTab, setActiveTab, classInfo, setClassInfo, onFileUpload }) => {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  const closeSidebar = () => {
+    setSidebarOpen(false);
+  };
+
+  const toggleSidebar = () => {
+    setSidebarOpen(!sidebarOpen);
+  };
+
   return (
-    <aside className="sidebar no-print">
+    <>
+      <button className="sidebar-toggle" onClick={toggleSidebar}>
+        {sidebarOpen ? '✕' : '☰'}
+      </button>
+      <div 
+        className={`sidebar-overlay ${sidebarOpen ? 'active' : ''}`}
+        onClick={closeSidebar}
+      ></div>
+      <aside className={`sidebar no-print ${sidebarOpen ? 'active' : ''}`}>
       <div className="logo">
         <img src="/logo.png" alt="Logo" onError={(e) => e.target.src = 'https://via.placeholder.com/80?text=Logo'} />
         <div className="logo-text">The President School</div>
@@ -104,13 +122,19 @@ const Sidebar = ({ activeTab, setActiveTab, classInfo, setClassInfo, onFileUploa
       <ul className="nav-links">
         <li 
           className={activeTab === 'dashboard' ? 'active' : ''}
-          onClick={() => setActiveTab('dashboard')}
+          onClick={() => {
+            setActiveTab('dashboard');
+            closeSidebar();
+          }}
         >
           Dashboard
         </li>
         <li 
           className={activeTab === 'students' ? 'active' : ''}
-          onClick={() => setActiveTab('students')}
+          onClick={() => {
+            setActiveTab('students');
+            closeSidebar();
+          }}
         >
           Student List
         </li>
@@ -128,7 +152,8 @@ const Sidebar = ({ activeTab, setActiveTab, classInfo, setClassInfo, onFileUploa
           />
         </label>
       </div>
-    </aside>
+      </aside>
+    </>
   );
 };
 
