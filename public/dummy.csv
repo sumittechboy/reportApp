@@ -1,0 +1,4 @@
+Name,Rank,Present,Absent,TotalScore,TotalMaxScore,Computer,English,Hindi,Maths,SST,Science,ID
+Student A,1,180,20,540,600,90/100,85/100,88/100,95/100,92/100,90/100,101
+Student B,2,170,30,500,600,80/100,75/100,78/100,85/100,82/100,80/100,102
+Student C,3,160,40,450,600,70/100,65/100,68/100,75/100,72/100,70/100,103

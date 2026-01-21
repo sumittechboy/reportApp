@@ -1,0 +1,7 @@
+services:
+  - type: static
+    name: tpdstudentreport
+    env: node
+    branch: master
+    buildCommand: npm install --include=dev && npm run build
+    publishPath: dist
