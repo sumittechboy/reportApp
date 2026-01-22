@@ -569,9 +569,12 @@ th {
     display: flex;
     flex-direction: column;
     width: 100%;
-    min-height: 220px;
+    height: 100%;
+    flex: 1 1 0;
     margin-top: 18px;
     background: #fff;
+    box-sizing: border-box;
+    overflow: hidden;
   }
   .chart-wrapper h4 {
     margin: 0 0 12px 0 !important;
@@ -626,6 +629,8 @@ th {
     box-sizing: border-box;
     overflow: hidden;
     page-break-after: always;
+    display: flex;
+    flex-direction: column;
   }
 
   .content-grid {
@@ -635,6 +640,7 @@ th {
     flex: 1;
     overflow: visible;
     margin-bottom: 10px !important;
+    height: 100%;
   }
 
   .left-col {
@@ -648,18 +654,22 @@ th {
     flex-direction: column;
     min-height: 200px;
     width: auto;
+    height: 100%;
   }
 
-  /* Ensure chart wrapper displays with title and larger chart */
+  /* Ensure chart wrapper fills available height and prevents overflow */
   .chart-wrapper {
     border: 1px solid #000;
     padding: 10px;
     display: flex;
     flex-direction: column;
-    flex: 1;
+    flex: 1 1 0;
     width: 100%;
     min-height: 260px;
+    height: 100%;
+    max-height: 100%;
     box-sizing: border-box;
+    overflow: hidden;
   }
 
   .chart-wrapper h4 {
@@ -676,12 +686,33 @@ th {
   }
 
   .chart-wrapper > div {
-    flex: 1;
-    width: 100%;
-    height: 210px !important;
+    flex: 1 1 0 !important;
+    width: 100% !important;
+    height: 80% !important;
+    min-height: 0 !important;
+    max-height: 100% !important;
     display: flex;
     align-items: center;
     justify-content: center;
+    overflow: hidden !important;
+    box-sizing: border-box;
+  }
+
+  /* Chart y-axis tick styling for 0, 10, 20, ... if supported by chart library */
+  .chart-y-tick {
+    font-size: 12px;
+    font-family: 'Inter', 'Arial', sans-serif;
+    color: #222;
+    opacity: 0.9;
+  }
+
+  .chart-wrapper svg,
+  .chart-wrapper canvas {
+    width: 100% !important;
+    height: 100% !important;
+    display: block;
+    object-fit: contain;
+    box-sizing: border-box;
   }
 
   .marks-table {
@@ -1021,16 +1052,23 @@ body.printing #print-container {
   overflow: hidden;
     margin-bottom: 15px;
 
-/* Ensure embedded chart doesn't overflow its border at any size */
+/* Ensure embedded chart doesn't overflow its border at any size and fills available height in print */
 .chart-wrapper > div {
   width: 100% !important;
   max-width: 100% !important;
+  height: 220px !important;
+  min-height: 180px !important;
+  max-height: 100% !important;
   overflow: hidden !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .chart-wrapper svg,
 .chart-wrapper canvas {
   max-width: 100% !important;
-  height: auto !important;
+  height: 100% !important;
+  min-height: 180px !important;
   display: block;
 }
     padding: 0 8px;

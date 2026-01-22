@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useRef, useEffect } from 'react';
 import { Chart } from "react-google-charts";
 
 const ReportPage = ({ student, classInfo, classAvg, subjectToppers, paperSize = 'A4', onPreparePrint }) => {
@@ -39,15 +39,41 @@ const ReportPage = ({ student, classInfo, classAvg, subjectToppers, paperSize = 
 
     const chartOptions = {
         hAxis: { minValue: 0, maxValue: 100 },
-        vAxis: { 
-            minValue: 0, 
+        vAxis: {
+            minValue: 0,
             maxValue: 100,
             ticks: [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
         },
         legend: { position: 'bottom' },
         colors: ['#333333', '#777777', '#AAAAAA'],
-        chartArea: { width: '80%', height: '75%' }
+        chartArea: { width: '80%', height: '85%', left: 60, top: 20, bottom: 60 }
     };
+
+    const chartRef = useRef(null);
+
+    useEffect(() => {
+      const handleBeforePrint = () => {
+        // If the Chart ref exposes chartWrapper.draw(), call it; otherwise trigger resize
+        try {
+          if (chartRef.current && chartRef.current.chartWrapper && typeof chartRef.current.chartWrapper.draw === 'function') {
+            chartRef.current.chartWrapper.draw();
+          } else {
+            window.dispatchEvent(new Event('resize'));
+          }
+        } catch (e) {
+          // fallback
+          window.dispatchEvent(new Event('resize'));
+        }
+      };
+
+      window.addEventListener('beforeprint', handleBeforePrint);
+      window.addEventListener('afterprint', handleBeforePrint);
+
+      return () => {
+        window.removeEventListener('beforeprint', handleBeforePrint);
+        window.removeEventListener('afterprint', handleBeforePrint);
+      };
+    }, []);
 
   return (
     <div style={{ position: 'relative' }}>
@@ -149,14 +175,14 @@ const ReportPage = ({ student, classInfo, classAvg, subjectToppers, paperSize = 
             <h4 style={{ textAlign: 'center', marginTop: 0, marginBottom: '10px', textTransform: 'uppercase', fontSize: '13px', borderBottom: '1px solid #ddd', paddingBottom: '5px' }}>
                 Performance Analysis
             </h4>
-            <div style={{ width: '100%', height: 'auto', minHeight: '180px' }}>
-               <Chart
-                  chartType="ColumnChart"
-                  width="100%"
-                  height="180px"
-                  data={chartData}
-                  options={chartOptions}
-               />
+            <div style={{ width: '100%', height: '80%', minHeight: '180px', boxSizing: 'border-box' }}>
+              <Chart
+                chartType="ColumnChart"
+                width="100%"
+                height="100%"
+                data={chartData}
+                options={{ ...chartOptions, chartArea: { width: '80%', height: '85%' } }}
+              />
             </div>
           </div>
         </div>
