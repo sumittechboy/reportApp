@@ -1,10 +1,19 @@
 import React, { useMemo } from 'react';
 import { Chart } from "react-google-charts";
 
-const ReportPage = ({ student, classInfo, classAvg, subjectToppers }) => {
+const ReportPage = ({ student, classInfo, classAvg, subjectToppers, paperSize = 'A4', onPreparePrint }) => {
   const handlePrint = () => {
+    // Allow parent to inject @page rules for selected paper size
+    try {
+      if (onPreparePrint) onPreparePrint(paperSize);
+    } catch (e) {}
+
     setTimeout(() => {
       window.print();
+      setTimeout(() => {
+        // remove dynamic style if parent exposed a remove function on window
+        try { if (window.__removePrintStyle) window.__removePrintStyle(); } catch (e) {}
+      }, 500);
     }, 100);
   };
 
@@ -140,11 +149,11 @@ const ReportPage = ({ student, classInfo, classAvg, subjectToppers }) => {
             <h4 style={{ textAlign: 'center', marginTop: 0, marginBottom: '10px', textTransform: 'uppercase', fontSize: '13px', borderBottom: '1px solid #ddd', paddingBottom: '5px' }}>
                 Performance Analysis
             </h4>
-            <div style={{ width: '100%' }}>
+            <div style={{ width: '100%', height: 'auto', minHeight: '180px' }}>
                <Chart
                   chartType="ColumnChart"
                   width="100%"
-                  height="300px"
+                  height="180px"
                   data={chartData}
                   options={chartOptions}
                />

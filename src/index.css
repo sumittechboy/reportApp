@@ -261,7 +261,8 @@ th {
 .report-page {
   height: auto;
   min-height: 285mm;
-  width: 200mm;
+  width: auto;
+  max-width: 210mm;
   padding: 10mm;
   border: 4px double #000;
   margin: 0 auto;
@@ -325,7 +326,7 @@ th {
 
 .student-info-grid {
   display: grid;
-  grid-template-columns: 1.8fr 0.8fr 0.7fr 0.7fr 1.2fr;
+  grid-template-columns: 1.8fr 0.8fr 0.8fr 0.8fr 1.2fr;
   gap: 0;
   margin-bottom: 15px;
   border: 1px solid #000;
@@ -333,7 +334,7 @@ th {
 
 .info-item {
   border-right: 1px solid #000;
-  padding: 5px 10px;
+  padding: 5px 6px;
   display: flex;
   flex-direction: column;
 }
@@ -434,35 +435,266 @@ th {
 }
 
 /* Print Styles */
+
 @media print {
+  body {
+    background: #fff !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    color: #000 !important;
+    font-family: 'Times New Roman', serif !important;
+  }
+  @page {
+    size: A4 portrait;
+    margin: 10mm;
+  }
   .no-print {
     display: none !important;
   }
-
   .print-only {
     display: block !important;
   }
-
-  body {
-    background: white !important;
-    margin: 0 !important;
-    padding: 0 !important;
-  }
-
-  @page {
-    size: A4 portrait;
-    margin: 5mm;
-  }
-
   .report-page {
+    width: 100%;
+    max-width: 19cm;
+    min-height: 26.7cm;
+    margin: 0 auto;
+    border: 3px double #222;
+    box-shadow: none !important;
+    padding: 12mm 10mm 10mm 10mm;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    page-break-after: always;
+  }
+  .report-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 2px solid #222;
+    padding-bottom: 10px;
+    margin-bottom: 18px;
+  }
+  .header-logo {
+    width: 120px !important;
+    height: 120px !important;
+    object-fit: contain;
+    margin-right: 18px;
+  }
+  .school-info {
+    flex: 1;
+    text-align: center;
+  }
+  .school-info h1 {
+    font-size: 32px;
+    font-weight: 900;
+    text-transform: uppercase;
     margin: 0;
-    box-shadow: none;
-    border: 3px double #000;
+    letter-spacing: 0.5px;
+  }
+  .school-info .address {
+    font-size: 13px;
+    margin: 2px 0;
+  }
+  .school-info .report-name {
+    font-size: 16px;
+    font-weight: 800;
+    margin-top: 5px;
+    text-decoration: underline;
+    text-transform: uppercase;
+  }
+  .session-info {
+    font-size: 13px;
+    font-weight: bold;
+    text-align: right;
+    min-width: 120px;
+    padding-left: 10px;
+    padding-right: 10px;
+    white-space: nowrap;
+  }
+  .student-info-grid {
+    display: grid;
+    grid-template-columns: 2fr 0.7fr 0.7fr 0.7fr 1.2fr;
+    gap: 0;
+    margin-bottom: 15px;
+    border: 1px solid #222;
+    background: #fafafa;
+  }
+  .info-item {
+    border-right: 1px solid #222;
+    padding: 6px 8px;
+    display: flex;
+    flex-direction: column;
+    font-size: 13px;
+  }
+  .info-item:last-child {
+    border-right: none;
+  }
+  .info-item strong {
+    font-size: 10px;
+    text-transform: uppercase;
+    color: #333;
+    margin-bottom: 2px;
+  }
+  .info-item span {
+    font-weight: 800;
+    font-size: 14px;
+    word-break: break-word;
+  }
+  .marks-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 0;
+    font-size: 12px;
+    background: #fff;
+  }
+  .marks-table th,
+  .marks-table td {
+    border: 1px solid #222;
+    padding: 7px 8px;
+    text-align: center;
+    font-size: 12px;
+    background: #f5f5f5;
+    word-break: break-word;
+  }
+  .marks-table th {
+    background: #eaeaea !important;
+    font-weight: 800;
+    text-transform: uppercase;
+  }
+  .chart-wrapper {
+    border: 1px solid #222;
+    padding: 12px 10px 10px 10px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-height: 220px;
+    margin-top: 18px;
+    background: #fff;
+  }
+  .chart-wrapper h4 {
+    margin: 0 0 12px 0 !important;
+    font-size: 15px !important;
+    padding-bottom: 6px !important;
+    border-bottom: 1px solid #bbb !important;
+    text-align: center;
+    font-weight: 800;
+    background: #fff;
+    min-height: 22px;
+  }
+  .chart-wrapper > div {
+    flex: 1;
+    width: 100%;
+    height: 180px !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .signatures {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+    margin-bottom: 18px;
+    padding: 0 40px;
+    gap: 30px;
+  }
+  .sig-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 140px;
+    flex: 1;
+  }
+  .sig-line {
+    border-top: 1px solid #222;
+    width: 100%;
+    text-align: center;
+    padding-top: 7px;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+}
+
+/* Print fixes: ensure chart displays with visible title and constrain to exact dimensions */
+@media print {
+  .report-page {
+    width: 20.5cm !important;
+    height: 28.5cm !important;
+    min-height: 28.5cm !important;
+    box-sizing: border-box;
+    overflow: hidden;
+    page-break-after: always;
   }
 
-  .marks-table th {
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
+  .content-grid {
+    display: flex;
+    flex-direction: row;
+    gap: 10px !important;
+    flex: 1;
+    overflow: visible;
+    margin-bottom: 10px !important;
+  }
+
+  .left-col {
+    flex: 0 0 auto;
+    width: auto;
+  }
+
+  .right-col {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 200px;
+    width: auto;
+  }
+
+  /* Ensure chart wrapper displays with title and larger chart */
+  .chart-wrapper {
+    border: 1px solid #000;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    width: 100%;
+    min-height: 260px;
+    box-sizing: border-box;
+  }
+
+  .chart-wrapper h4 {
+    margin: 0 0 16px 0 !important;
+    font-size: 15px !important;
+    padding-bottom: 10px !important;
+    border-bottom: 1px solid #bbb !important;
+    flex-shrink: 0;
+    text-align: center;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    background: #fff;
+    min-height: 24px;
+  }
+
+  .chart-wrapper > div {
+    flex: 1;
+    width: 100%;
+    height: 210px !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .marks-table {
+    table-layout: fixed;
+    width: 100%;
+    font-size: 12px;
+  }
+  .marks-table th,
+  .marks-table td {
+    white-space: normal;
+    overflow-wrap: break-word;
+    padding: 6px 6px !important;
+    font-size: 12px;
   }
 }
 
@@ -474,7 +706,8 @@ body.preview-mode .app-container {
 
 body.preview-mode #print-container {
   display: block;
-  width: 210mm;
+  width: 20.5cm;
+  height: 28.5cm;
   margin: 30px auto;
   background: #eee;
   padding: 20px;
@@ -525,35 +758,40 @@ body.printing #print-container {
     font-size: 14px;
   }
 
-  .top-bar {
-    flex-direction: column;
-    gap: 15px;
-    align-items: stretch;
-    padding: 15px 20px;
+  .report-header {
+    grid-template-columns: 120px 1fr 160px;
   }
 
-  .primary-btn {
-    padding: 10px 16px;
-    font-size: 14px;
-  }
-}
-
-/* Mobile devices */
-@media (max-width: 768px) {
-  .sidebar {
-    position: fixed;
-    width: 280px;
-    height: 100vh;
-    transform: translateX(-100%);
-    transition: transform 0.3s ease;
-    left: 0;
-    z-index: 200;
+  .session-info {
+    text-align: right;
+    font-size: 11px;
+    white-space: nowrap;
+    padding-right: 14px !important;
+    position: relative;
+    left: -12px;
   }
 
-  .sidebar.active {
-    transform: translateX(0);
+  .session-info p {
+    white-space: nowrap;
+    font-size: 11px;
+    text-align: right;
+    margin: 1px 0 !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-right: 14px !important;
   }
 
+  .student-info-grid {
+    grid-template-columns: 2.0fr 0.6fr 0.5fr 0.5fr 1.0fr !important;
+    gap: 0 !important;
+  }
+
+  .header-logo {
+    width: 120px !important;
+    height: 120px !important;
+    object-fit: contain;
+    margin-left: -10px;
+  }
   .sidebar-toggle {
     display: flex;
     align-items: center;
@@ -772,16 +1010,29 @@ body.printing #print-container {
   }
 
   .chart-wrapper h4 {
-    font-size: 11px;
-    margin: 0 0 8px 0;
-    flex: 0;
-  }
-
-  .signatures {
-    display: flex;
-    justify-content: space-around;
-    margin-top: 25px;
+  border: 1px solid #000;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  width: 100%;
+  height: auto;
+  flex: 1;
+  overflow: hidden;
     margin-bottom: 15px;
+
+/* Ensure embedded chart doesn't overflow its border at any size */
+.chart-wrapper > div {
+  width: 100% !important;
+  max-width: 100% !important;
+  overflow: hidden !important;
+}
+.chart-wrapper svg,
+.chart-wrapper canvas {
+  max-width: 100% !important;
+  height: auto !important;
+  display: block;
+}
     padding: 0 8px;
     flex: 0;
     gap: 8px;

@@ -21,6 +21,7 @@ function App() {
   const [previewStudent, setPreviewStudent] = useState(null);
   const [isPrinting, setIsPrinting] = useState(false);
   const [printData, setPrintData] = useState([]); // Array of students to print
+  const [paperSize, setPaperSize] = useState('A4');
 
   // Derived stats
   const [classAvg, setClassAvg] = useState([]);
@@ -128,6 +129,8 @@ function App() {
     setPrintData([s]);
     setIsPrinting(true);
     document.body.classList.add('printing');
+    // inject print @page size based on selection
+    injectPrintStyle(paperSize);
     // Using setTimeout to allow render before print
     setTimeout(() => {
         window.print();
@@ -136,6 +139,7 @@ function App() {
              setIsPrinting(false);
              setPrintData([]);
              document.body.classList.remove('printing');
+             removePrintStyle();
         }, 500);
     }, 500);
   };
@@ -148,14 +152,44 @@ function App() {
     setPrintData(studentData);
     setIsPrinting(true);
     document.body.classList.add('printing');
+    injectPrintStyle(paperSize);
      setTimeout(() => {
         window.print();
         setTimeout(() => {
              setIsPrinting(false);
              setPrintData([]);
              document.body.classList.remove('printing');
+             removePrintStyle();
         }, 500);
     }, 1000); // More time for many charts
+  };
+
+  // Inject or update a <style id="print-size"> tag to control @page size dynamically
+  const injectPrintStyle = (size) => {
+    try {
+      const existing = document.getElementById('print-size-style');
+      // Also include .report-page size tweaks for A4/A5 so layout scales well in preview and print
+      // Keep printed page size as requested, and ensure the report container matches 20.5cm x 28.5cm
+      const reportCss = `.report-page { width: 20.5cm !important; height: 28.5cm !important; min-height: 28.5cm !important; padding: 8mm !important; box-sizing: border-box; overflow: hidden; }`;
+      const css = `@page { size: ${size} portrait; margin: 5mm; }\n${reportCss}`;
+      if (existing) {
+        existing.innerHTML = css;
+      } else {
+        const s = document.createElement('style');
+        s.id = 'print-size-style';
+        s.innerHTML = css;
+        document.head.appendChild(s);
+      }
+    } catch (e) {
+      // ignore for non-browser env
+    }
+  };
+
+  const removePrintStyle = () => {
+    try {
+      const existing = document.getElementById('print-size-style');
+      if (existing) existing.remove();
+    } catch (e) {}
   };
 
   return (
@@ -174,6 +208,8 @@ function App() {
             searchQuery={searchQuery}
             setSearchQuery={setSearchQuery}
             onPrintAll={handlePrintAll}
+            paperSize={paperSize}
+            setPaperSize={setPaperSize}
           />
 
           {activeTab === 'dashboard' && (
@@ -219,6 +255,8 @@ function App() {
                  classInfo={classInfo} 
                  classAvg={classAvg}
                  subjectToppers={subjectToppers}
+                 paperSize={paperSize}
+                 onPreparePrint={(sz) => { injectPrintStyle(sz); window.__removePrintStyle = removePrintStyle; }}
                />
           </div>
       )}
@@ -233,6 +271,8 @@ function App() {
                     classInfo={classInfo}
                     classAvg={classAvg}
                     subjectToppers={subjectToppers}
+              paperSize={paperSize}
+              onPreparePrint={(sz) => { injectPrintStyle(sz); window.__removePrintStyle = removePrintStyle; }}
                   />
               ))}
           </div>
